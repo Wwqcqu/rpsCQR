@@ -17,7 +17,7 @@ tau3=c(1/4, 2/4, 3/4)
 tau5=c(1/6, 2/6, 3/6, 4/6, 5/6)
 tau7=c(1/8,2/8,3/8,4/8,5/8,6/8,7/8)
 tau9=c(1/10,2/10,3/10,4/10,5/10,6/10,7/10,8/10,9/10)
-data <- read.csv("E:\\CQR\\real_data_analysis\\superconductivty_train.csv",head=TRUE)
+data <- read.csv("superconductivty_train.csv",head=TRUE)
 x <- as.matrix(data[1:21263,1:81])
 y <- as.matrix(data[1:21263,82])
 
