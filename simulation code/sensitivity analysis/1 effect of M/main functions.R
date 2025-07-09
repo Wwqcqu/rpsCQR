@@ -1,5 +1,4 @@
 rm(list=ls())
-# 加载必要的包
 library(quantreg)
 library(lpSolve)
 library(doParallel)
@@ -10,13 +9,12 @@ library(lava)
 #install.packages("cqr")
 #install.packages("cqrReg")
 library(cqrReg)
-#线性规划求解样本加权复合分位数
 wcqr_lp <- function (X, y, taus, weights = NULL) 
 {
-  n <- nrow(X)   #行数量，即样本量
-  p <- ncol(X)   #列数量
-  K <- length(taus) #分位数水平个数
-  # 如果未提供权重，默认权重为 1
+  n <- nrow(X)  
+  p <- ncol(X)   
+  K <- length(taus) 
+ 
   if (is.null(weights)) {
     weights <- rep(1, n)
   }
@@ -25,8 +23,8 @@ wcqr_lp <- function (X, y, taus, weights = NULL)
   A3=kronecker(cbind(rep(1, K), rep(-1, K)), X)
   A4=diag(n*K)
   A5=-diag(n*K)
-  A=cbind(A1,A2,A3,A4,A5)#约束系数矩阵
-  b=kronecker(rep(1, K),y)#约束右边的向量值
+  A=cbind(A1,A2,A3,A4,A5)
+  b=kronecker(rep(1, K),y)
   c1=matrix(0, nrow = 1, ncol = 2*K + 2*p)
   c2=matrix(0, K, n)
   c3=matrix(0, K, n)
@@ -40,8 +38,8 @@ wcqr_lp <- function (X, y, taus, weights = NULL)
   }
   c2 <- matrix(c(t(c2)), nrow = 1)
   c3 <- matrix(c(t(c3)), nrow = 1)
-  c=cbind(c1,c2,c3)#目标函数系数向量
-  const.dir=rep("=", K*n) #N个等式约束
+  c=cbind(c1,c2,c3)
+  const.dir=rep("=", K*n) 
   linprog <- lp("min", c, A, const.dir, b)
   b_tau <- linprog$sol[1:K]-linprog$sol[(K+1):(2*K)]
   beta <- linprog$sol[(2*K+1):(2*K+p)] - linprog$sol[(2*K+p+1):(2*K+p+p)] #
@@ -91,7 +89,7 @@ generate <- function(beta,N,Xtype,etype){
   else if(etype == "cauchy"){
     error <- rcauchy(N)
   }
-  else if(etype=="t3"){#大论文可以再参考2008多考虑一点
+  else if(etype=="t3"){
     error <- rt(N,3)
   }
   y <- x%*%beta+error
@@ -126,7 +124,7 @@ optsample <- function(y, x, r, method, tau) {
   if (method == "U") {
     prob <- rep(1/N, N)
   } else {
-    r0 <- 100   #预抽
+    r0 <- 100   
     idx0 <- sample(1:N, r0, replace = TRUE, prob = rep(1/N, N))
     x0 <- x[idx0, ]
     y0 <- y[idx0]
