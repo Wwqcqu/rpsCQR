@@ -29,6 +29,13 @@ result <- foreach(h = 1:H, .packages = c("mvtnorm", "Rfit")) %dopar% {
   x <- G[[2]]
   y <- G[[1]]
   
+  t_K1_M1_r100 <- run_time(N,p,y, x, M=1, r1,method='pois',tau=tau1)
+  t_K1_M1_r200 <- run_time(N,p,y, x, M=1, r2,method='pois',tau=tau1)
+  t_K1_M1_r300 <- run_time(N,p,y, x, M=1, r3,method='pois',tau=tau1)
+  t_K1_M10_r100 <- run_time(N,p,y, x, M=10, r1,method='pois',tau=tau1)
+  t_K1_M10_r200 <- run_time(N,p,y, x, M=10, r2,method='pois',tau=tau1)
+  t_K1_M10_r300 <- run_time(N,p,y, x, M=10, r3,method='pois',tau=tau1)
+  
   t_K5_M1_r100 <- run_time(N,p,y, x, M=1, r1,method='pois',tau=tau5)
   t_K5_M1_r200 <- run_time(N,p,y, x, M=1, r2,method='pois',tau=tau5)
   t_K5_M1_r300 <- run_time(N,p,y, x, M=1, r3,method='pois',tau=tau5)
@@ -36,7 +43,8 @@ result <- foreach(h = 1:H, .packages = c("mvtnorm", "Rfit")) %dopar% {
   t_K5_M10_r200 <- run_time(N,p,y, x, M=10, r2,method='pois',tau=tau5)
   t_K5_M10_r300 <- run_time(N,p,y, x, M=10, r3,method='pois',tau=tau5)
   
-  c(t_K5_M1_r100, t_K5_M1_r200, t_K5_M1_r300, t_K5_M10_r100, t_K5_M10_r200, t_K5_M10_r300) 
+  c(t_K1_M1_r100, t_K1_M1_r200, t_K1_M1_r300, t_K1_M10_r100, t_K1_M10_r200, t_K1_M10_r300,
+    t_K5_M1_r100, t_K5_M1_r200, t_K5_M1_r300, t_K5_M10_r100, t_K5_M10_r200, t_K5_M10_r300) 
 } 
 
 stopCluster(cl)
@@ -44,6 +52,7 @@ stopCluster(cl)
 resultM <- colMeans(matrix(unlist(result), nrow = H, byrow = TRUE))
 
 result_df <- data.frame(t(resultM))
-colnames(result_df) <- c("t_K5_M1_r100", "t_K5_M1_r200", "t_K5_M1_r300", "t_K5_M10_r100", "t_K5_M10_r200", "t_K5_M10_r300")
+colnames(result_df) <- c("t_K1_M1_r100", "t_K1_M1_r200", "t_K1_M1_r300", "t_K1_M10_r100", "t_K1_M10_r200", "t_K1_M10_r300",
+                         "t_K5_M1_r100", "t_K5_M1_r200", "t_K5_M1_r300", "t_K5_M10_r100", "t_K5_M10_r200", "t_K5_M10_r300")
 result_df
-#write.csv(result_df,"E:\\CQR\\s2\\p40-running-time-K5.csv")
+#write.csv(result_df,"E:\\CQR\\s2\\p40-running-time.csv")
