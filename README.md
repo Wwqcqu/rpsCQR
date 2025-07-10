@@ -6,7 +6,7 @@ This repository contains the code used for the simulation and real data studies 
 
 ### 1. Simulation Code (`simulation code for rpsCQR`)
 
-The folder `simulation code for rpsrr` contains all the code for the simulations in the paper. It includes three subfolders corresponding to the simulation steps in the paper:
+The folder `simulation code for rpsCQR` contains all the code for the simulations in the paper. It includes three subfolders corresponding to the simulation steps in the paper:
 
 - **1 sensitivity analysis**: Code related to the selection of appropriate parameter settings in Section 4.1.
 - **2 comparison of several subsampling methods**: Code for comparing different subsampling methods in Section 4.2.
